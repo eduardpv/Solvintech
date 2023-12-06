@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Solvintech.API.props" />
+</Project>
