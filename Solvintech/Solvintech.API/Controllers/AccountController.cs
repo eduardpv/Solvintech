@@ -115,9 +115,21 @@ namespace Solvintech.API.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Logout([FromBody] LogoutCredentialsDto model)
+        public async Task<IActionResult> Logout()
         {
-            var user = await _userService.GetByAccessTokenAsync(model.AccessToken);
+            var accessToken = HttpContext.Request.Headers[Constants.Configuration.Authorization].ToString();
+            if (String.IsNullOrWhiteSpace(accessToken))
+            {
+                return new BadRequestObjectResult(new
+                {
+                    IsSuccess = false,
+                    Message = Constants.Token.InvalidHeaderAuthorization
+                });
+            }
+
+            var user = await _userService.GetByAccessTokenAsync(accessToken.Replace($"{Constants.Configuration.Bearer} ",
+                                                                string.Empty,
+                                                                StringComparison.OrdinalIgnoreCase));
             if (user == null)
             {
                 return new BadRequestObjectResult(new

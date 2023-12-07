@@ -1,0 +1,41 @@
+{
+	"info": {
+		"_postman_id": "a450e411-5f61-456a-8638-6ae56ab347c0",
+		"name": "TokenController",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30658306"
+	},
+	"item": [
+		{
+			"name": "Generate",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJleGFtcGxlQGdtYWlsLmNvbSIsIm5iZiI6MTcwMTkwOTQ1OSwiZXhwIjoxNzAxOTEzMDU5LCJpYXQiOjE3MDE5MDk0NTl9.UfJ8EpIfxr2BJv3D-3FEYkpOYk--1LIhenonRQZJTlM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5062/api/token/generate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5062",
+					"path": [
+						"api",
+						"token",
+						"generate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

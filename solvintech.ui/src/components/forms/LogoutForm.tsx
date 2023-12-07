@@ -29,7 +29,9 @@ const LogoutForm: React.FunctionComponent<ILogoutFormProps> = (props) => {
         const cookies = new Cookies();
 
         AccountService.logout({
-            accessToken: accountStore.data.accessToken || cookies.get(Constants.Common.AccessToken)
+            headers: {
+                accessToken: accountStore.data.accessToken || cookies.get(Constants.Common.AccessToken)
+            }
         })
             .then((response: any) => {
                 cookies.remove(Constants.Common.AccessToken);

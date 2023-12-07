@@ -10,7 +10,13 @@ const signIn = (data: ISignInCredentials) => {
 }
 
 const logout = (data: ILogoutCredentials) => {
-    return http.post<ILogoutCredentials>("/account/logout", data);
+    const config = {
+        headers: {
+            "Authorization": `Bearer ${data.headers.accessToken}`
+        }
+    }
+
+    return http.post<ILogoutCredentials>("/account/logout", null, config);
 }
 
 const AccountService = {

@@ -10,5 +10,7 @@ export interface ISignInCredentials {
 }
 
 export interface ILogoutCredentials {
-    accessToken: string;
+    headers: {
+        accessToken: string;
+    }
 }
