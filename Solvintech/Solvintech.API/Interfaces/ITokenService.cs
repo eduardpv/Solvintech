@@ -1,6 +1,4 @@
-﻿using Solvintech.API.Models;
-
-namespace Solvintech.API.Interfaces
+﻿namespace Solvintech.API.Interfaces
 {
     public interface ITokenService
     {

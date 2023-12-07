@@ -9,8 +9,6 @@ namespace Solvintech.API.Database
 
         public ApplicationDbContext(DbContextOptions options)
             : base(options)
-        {
-
-        }
+        { }
     }
 }

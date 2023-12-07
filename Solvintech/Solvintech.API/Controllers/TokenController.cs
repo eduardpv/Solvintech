@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Solvintech.API.Database;
+using Solvintech.API.Extensions;
 using Solvintech.API.Interfaces;
+using Solvintech.API.Сommon;
 
 namespace Solvintech.API.Controllers
 {
@@ -27,23 +29,25 @@ namespace Solvintech.API.Controllers
         [Route("generate")]
         public async Task<IActionResult> UpdateToken()
         {
-            var accessToken = ControllerContext.HttpContext.Request.Headers["Authorization"].ToString();
+            var accessToken = HttpContext.Request.Headers[Constants.Configuration.Authorization].ToString();
             if (String.IsNullOrWhiteSpace(accessToken))
             {
                 return new BadRequestObjectResult(new
                 {
                     IsSuccess = false,
-                    Message = "Invalid header 'Authorization'."
+                    Message = Constants.Token.InvalidHeaderAuthorization
                 });
             }
 
-            var user = await _userService.GetByAccessTokenAsync(accessToken.Replace("Bearer ", string.Empty));
+            var user = await _userService.GetByAccessTokenAsync(accessToken.Replace($"{Constants.Configuration.Bearer} ",
+                                                                string.Empty,
+                                                                StringComparison.OrdinalIgnoreCase));
             if (user == null)
             {
                 return new BadRequestObjectResult(new
                 {
                     IsSuccess = false,
-                    Message = "Invalid access token."
+                    Message = Constants.Token.InvalidAccessToken
                 });
             }
 
@@ -55,7 +59,7 @@ namespace Solvintech.API.Controllers
             return new OkObjectResult(new
             {
                 IsSuccess = true,
-                Message = "Token updated successfull.",
+                Message = Constants.Token.UpdateSuccess,
                 AccessToken = user.AccessToken
             });
         }

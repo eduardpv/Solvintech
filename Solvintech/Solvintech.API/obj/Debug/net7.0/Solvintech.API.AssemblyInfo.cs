@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Solvintech.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+40f52491aa3d82df036fbd03265d1413bd41d882")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a3741df307779a0670c0ea057819b87d87c91951")]
 [assembly: System.Reflection.AssemblyProductAttribute("Solvintech.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Solvintech.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

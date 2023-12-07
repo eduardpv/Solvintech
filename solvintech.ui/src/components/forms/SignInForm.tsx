@@ -1,11 +1,15 @@
 import { observer } from 'mobx-react-lite';
-import { FormGroup } from "../FormGroup"
-import { Button } from "../Button"
 import { useState } from "react";
+
+import Constants from '../../common/constants';
 import Cookies from 'universal-cookie';
 
 import AccountService from "../../services/AccountService";
 import AccountStore from "../../stores/AccountStore";
+
+import { FormGroup } from "../FormGroup"
+import { Button } from "../Button"
+import { Form } from '../Form';
 
 interface ISignInFormProps {
     accountStore: AccountStore
@@ -25,34 +29,54 @@ const SignInForm: React.FunctionComponent<ISignInFormProps> = (props) => {
         setPassword(e.currentTarget.value);
     }
 
+    function isDataValidation() {
+        return email.length !== 0 && password.length !== 0
+    }
+
     function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+
+        if (!isDataValidation()) {
+            alert(Constants.ValidationErrors.DataInvalid);
+            return;
+        }
 
         AccountService.signIn({
             email: email,
             password: password
         })
             .then((response: any) => {
-                const accessToken = response.data.accessToken;
-
                 const cookies = new Cookies();
-                cookies.set('accessToken', accessToken);
+                const accessToken = response?.data?.accessToken;
+
+                cookies.set(Constants.Common.AccessToken, accessToken);
                 accountStore.updateAccessToken(accessToken);
 
-                alert(response.data.message);
+                alert(response?.data?.message);
             })
             .catch((e: any) => {
-                console.log(e.response);
+                alert(`${e?.response?.statusText} - please, check console logs`);
+                console.log(e?.response);
             });
     }
 
     return (
-        <form>
-            <FormGroup type="email" name="Email" title="Email" onChange={onChangeEmail} />
-            <FormGroup type="password" name="Password" title="Password" onChange={onChangePassword} />
+        <Form>
+            <FormGroup
+                type={Constants.HtmlTypesDeclarations.EmailType}
+                name={Constants.Common.Email}
+                title={Constants.Common.Email}
+                onChange={onChangeEmail} />
+            <FormGroup
+                type={Constants.HtmlTypesDeclarations.PasswordType}
+                name={Constants.Common.Password}
+                title={Constants.Common.Password}
+                onChange={onChangePassword} />
             <br />
-            <Button name="Log In" onClick={onSubmit} />
-        </form>
+            <Button
+                name={Constants.HtmlNamesDeclarations.LogIn}
+                onClick={onSubmit} />
+        </Form>
     )
 }
 

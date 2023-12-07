@@ -10,6 +10,9 @@
                 .AllowAnyHeader()
             );
 
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
             app.UseRouting()
                 .UseAuthentication()
                 .UseAuthorization()

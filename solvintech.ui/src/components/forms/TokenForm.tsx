@@ -1,10 +1,15 @@
 import { observer } from 'mobx-react-lite';
-import { Button } from "../Button"
 import { useEffect, useState } from "react";
+
+import Constants from '../../common/constants';
 import Cookies from 'universal-cookie';
 
 import AccountStore from "../../stores/AccountStore";
 import TokenService from '../../services/TokenService';
+
+import { Form } from '../Form';
+import { Button } from "../Button"
+import { TokenInfo } from './elements/TokenInfo';
 
 interface ITokenFormProps {
     accountStore: AccountStore
@@ -13,7 +18,7 @@ interface ITokenFormProps {
 const TokenForm: React.FunctionComponent<ITokenFormProps> = (props) => {
     const cookies = new Cookies();
     const accountStore = props.accountStore;
-    const accessToken = accountStore.data.accessToken || cookies.get('accessToken');
+    const accessToken = accountStore.data.accessToken || cookies.get(Constants.Common.AccessToken);
     const [token, setToken] = useState(accessToken);
 
     useEffect(() => {
@@ -40,7 +45,7 @@ const TokenForm: React.FunctionComponent<ITokenFormProps> = (props) => {
             .then((response: any) => {
                 const accessToken = response.data.accessToken;
 
-                cookies.set('accessToken', accessToken);
+                cookies.set(Constants.Common.AccessToken, accessToken);
                 accountStore.updateAccessToken(accessToken);
                 onChangeToken(accessToken);
 
@@ -52,11 +57,13 @@ const TokenForm: React.FunctionComponent<ITokenFormProps> = (props) => {
     }
 
     return (
-        <form>
-            <p style={{ wordWrap: "break-word" }}>{token}</p>
+        <Form>
+            <TokenInfo accessToken={token} />
             <br />
-            <Button name="Update token" disabled={isDisabled()} onClick={onSubmit} />
-        </form>
+            <Button
+                name={Constants.HtmlNamesDeclarations.UpdateToken}
+                disabled={isDisabled()} onClick={onSubmit} />
+        </Form>
     )
 }
 

@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Solvintech.API.Database;
 using Solvintech.API.Interfaces;
 using Solvintech.API.Models;
 using Solvintech.API.Models.DTO;
+using Solvintech.API.Сommon;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -35,7 +35,7 @@ namespace Solvintech.API.Controllers
                 return new BadRequestObjectResult(new
                 {
                     IsSuccess = false,
-                    Message = "User signup failed."
+                    Message = Constants.Account.SignUpFailed
                 });
             }
 
@@ -45,7 +45,7 @@ namespace Solvintech.API.Controllers
                 return new BadRequestObjectResult(new
                 {
                     IsSuccess = false,
-                    Message = "User is already exists."
+                    Message = Constants.Account.UserExists
                 });
             }
 
@@ -64,7 +64,7 @@ namespace Solvintech.API.Controllers
             return new OkObjectResult(new
             {
                 IsSuccess = true,
-                Message = "User sign up sucessfull."
+                Message = Constants.Account.SignUpSuccess
             })
             { StatusCode = StatusCodes.Status201Created };
         }
@@ -78,7 +78,7 @@ namespace Solvintech.API.Controllers
                 return new BadRequestObjectResult(new
                 {
                     IsSuccess = false,
-                    Message = "User sign in failed."
+                    Message = Constants.Account.SignInFailed
                 });
             }
 
@@ -88,7 +88,7 @@ namespace Solvintech.API.Controllers
                 return new BadRequestObjectResult(new
                 {
                     IsSuccess = false,
-                    Message = "Invalid email."
+                    Message = Constants.Account.InvalidEmail
                 });
             }
 
@@ -97,7 +97,7 @@ namespace Solvintech.API.Controllers
                 return new BadRequestObjectResult(new
                 {
                     IsSuccess = false,
-                    Message = "Invalid password."
+                    Message = Constants.Account.InvalidPassword
                 });
             }
 
@@ -108,7 +108,7 @@ namespace Solvintech.API.Controllers
             return new OkObjectResult(new
             {
                 IsSuccess = true,
-                Message = "User sign in successfull.",
+                Message = Constants.Account.SignInSuccess,
                 AccessToken = user.AccessToken
             });
         }
@@ -123,19 +123,18 @@ namespace Solvintech.API.Controllers
                 return new BadRequestObjectResult(new
                 {
                     IsSuccess = false,
-                    Message = "User log out failed."
+                    Message = Constants.Account.LogoutFailed
                 });
             }
 
             user.AccessToken = string.Empty;
-
             _dbContext.Update(user);
             await _dbContext.SaveChangesAsync();
 
             return new OkObjectResult(new
             {
                 IsSuccess = true,
-                Message = "User log out successfull.",
+                Message = Constants.Account.LogoutSuccess,
                 AccessToken = string.Empty
             });
         }

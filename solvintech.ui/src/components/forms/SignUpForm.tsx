@@ -1,8 +1,11 @@
-import { FormGroup } from "../FormGroup"
-import { Button } from "../Button"
 import { useState } from "react";
 
+import Constants from "../../common/constants";
 import AccountService from "../../services/AccountService";
+
+import { FormGroup } from "../FormGroup"
+import { Button } from "../Button"
+import { Form } from "../Form";
 
 export const SignUpForm: React.FunctionComponent = () => {
     const [email, setEmail] = useState("");
@@ -21,8 +24,25 @@ export const SignUpForm: React.FunctionComponent = () => {
         setComfirmPassword(e.currentTarget.value);
     }
 
+    function isDataValidation() {
+        if (email.length === 0 || password.length === 0 || confirmPassword.length === 0) {
+            return false;
+        }
+
+        if (password !== confirmPassword) {
+            return false;
+        }
+
+        return true;
+    }
+
     function onSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
+
+        if (!isDataValidation()) {
+            alert(Constants.ValidationErrors.DataInvalid);
+            return;
+        }
 
         AccountService.signUp({
             email: email,
@@ -30,20 +50,35 @@ export const SignUpForm: React.FunctionComponent = () => {
             confirmPassword: confirmPassword
         })
             .then((response: any) => {
-                alert(response.data.message);
+                alert(response?.data?.message);
             })
             .catch((e: any) => {
-                console.log(e.response);
+                alert(`${e?.response?.statusText} - please, check console logs`);
+                console.log(e?.response);
             });
     }
 
     return (
-        <form>
-            <FormGroup type="email" name="Email" title="Email" onChange={onChangeEmail} />
-            <FormGroup type="password" name="Password" title="Password" onChange={onChangePassword} />
-            <FormGroup type="password" name="ConfirmPassword" title="Confirm Password" onChange={onChangeConfirmPassword} />
+        <Form>
+            <FormGroup
+                type={Constants.HtmlTypesDeclarations.EmailType}
+                name={Constants.Common.Email}
+                title={Constants.Common.Email}
+                onChange={onChangeEmail} />
+            <FormGroup
+                type={Constants.HtmlTypesDeclarations.PasswordType}
+                name={Constants.Common.Password}
+                title={Constants.Common.Password}
+                onChange={onChangePassword} />
+            <FormGroup
+                type={Constants.HtmlTypesDeclarations.PasswordType}
+                name={Constants.HtmlNamesDeclarations.ConfirmPasswordName}
+                title={Constants.HtmlTitlesDeclarations.ConfirmPasswordTitle}
+                onChange={onChangeConfirmPassword} />
             <br />
-            <Button name="Register" onClick={onSubmit} />
-        </form>
+            <Button
+                name={Constants.HtmlNamesDeclarations.Register}
+                onClick={onSubmit} />
+        </Form>
     )
 }

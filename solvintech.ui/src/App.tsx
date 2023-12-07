@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import AccountStore from './stores/AccountStore';
 
 import { SignUpForm } from './components/forms/SignUpForm';
-import { QuotationForm } from './components/forms/QuotationForm';
+import QuotationForm from './components/forms/QuotationForm';
 import SignInForm from './components/forms/SignInForm';
 import LogoutForm from './components/forms/LogoutForm';
 import TokenForm from './components/forms/TokenForm';

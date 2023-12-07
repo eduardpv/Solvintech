@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using Solvintech.API.Interfaces;
+using Solvintech.API.Сommon;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -12,8 +13,8 @@ namespace Solvintech.API.Services
 
         public TokenService(IConfiguration configuration)
         {
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["SecretKey"]
-                ?? throw new InvalidOperationException("SecretKey isn't found")));
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[Constants.Configuration.SecretKey]
+                ?? throw new InvalidOperationException(Constants.ConfigurationErrors.SecretKetNotFound)));
         }
 
         public string CreateToken(string email)
@@ -29,6 +30,7 @@ namespace Solvintech.API.Services
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
+
             return tokenHandler.WriteToken(token);
         }
     }
